@@ -2,8 +2,9 @@
 module.exports = {
   content: [
     "./src/*.{html,js,css}",
-    "./views/*.ejs",
+    "./views/**/*.ejs",
   ],
+  mode: "jit",
   theme: {
     screens: {
     sm:'480px',
