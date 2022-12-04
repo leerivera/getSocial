@@ -3,10 +3,15 @@
     <div class="row justify-content-center mt-5">
       <ul class="row list-unstyled">
         <% for(var i=0; i<posts.length; i++) {%>
+          
           <li class="col-6 justify-content-between mt-5">
+            <h1><%= JSON.stringify(posts[i].title).replace(/['"]+/g, '') %></h1>
+            <h1><%= JSON.stringify(posts[i].userName) %></h1>
             <a href="/post/<%= posts[i]._id%>">
               <img class="img-fluid" src="<%= posts[i].image%>">
             </a>
+            <h2><%= JSON.stringify(posts[i].caption).replace(/['"]+/g, '') %></h2>
+            
           </li>
         <% } %>
         </ul>
