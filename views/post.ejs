@@ -35,7 +35,8 @@
   </div>
   <div class="mt-5">
     <h2>Add a comment</h2>
-    <form action="/comment/createComment/<%= posts[i]._id%>"  method="POST">
+    <form action="/comment/createComment/<%= post._id%>"  method="POST">
+      <!-- no [i] needed because it's looping thru one at a time -->
       <div class="mb-3">
           <label for="comment" class="form-label">Comment</label>
           <input type="text" class="form-control" id="comment" name="comment">
@@ -48,7 +49,7 @@
       <% for(var i=0; i<comments.length; i++) {%>
           
         <li class="col-6 justify-content-between mt-5">
-          <!-- <% console.log(posts[i]) %> -->
+          <!-- <% console.log(comments[i]) %> -->
 
           
             <%= comments[i].comment%>">
