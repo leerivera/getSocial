@@ -9,7 +9,7 @@ module.exports = {
         // const commentUser = await User.find(  req.user.id );
 
       await Comment.create({
-        comment: req.body.comment,User,
+        comment: req.body.comment.User,
         
         
         likes: 0,
@@ -23,6 +23,17 @@ module.exports = {
       console.log(err);
     }
   },
+
+  deleteComments: async (req, res) => {
+    try {
+        await Comment.deleteOne({_id: req.params.commentid })
+        res.redirect("/post/"+req.params.postid)
+        
+    } catch(err) {
+        console.log(err)
+
+    }
+  }
 //   likePost: async (req, res) => {
 //     try {
 //       await Post.findOneAndUpdate(
