@@ -1,0 +1,16 @@
+1. add a delete button and delete ability to each comment only visible to the user who submitted the comment
+
+-the user who created the comment's Id
+- button
+- a conditional statement in the view
+that compares the logged in user with the comment user Id
+-a controller with a delete method
+- a route to the controller 
+-Db storage of the user ID who created the comment
+
+
+2. add the username associated witheach comment to the text.
+
+-find the username based on the user ID of the comment
+
+
