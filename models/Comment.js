@@ -14,6 +14,11 @@ const CommentSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Post",
   },
+  createdBy: {
+    type: String,
+    ref: "User"
+
+  },
   createdById: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
