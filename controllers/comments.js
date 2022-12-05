@@ -6,14 +6,16 @@ module.exports = {
 
   createComment: async (req, res) => {
     try {
-      
+        // const commentUser = await User.find(  req.user.id );
 
       await Comment.create({
-        comment: req.body.comment,
+        comment: req.body.comment,User,
         
         
         likes: 0,
         post: req.params.id,
+        createdBy: req.user.userName,
+        createdByID: req.user.id
       });
       console.log("Comment has been added!");
       res.redirect("/post/"+req.params.id);
