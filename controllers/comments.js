@@ -1,21 +1,16 @@
-
-const Post = require("../models/Post");
-const Comment = require("../models/Comment")
+const Comment = require("../models/Comment");
+const User = require("../models/User");
 
 module.exports = {
-
   createComment: async (req, res) => {
     try {
-        // const commentUser = await User.find(  req.user.id );
-
+      const commentUser = await User.findById(req.user.id)
       await Comment.create({
-        comment: req.body.comment.User,
-        
-        
+        comment: req.body.comment,
         likes: 0,
         post: req.params.id,
-        createdBy: req.user.userName,
-        createdByID: req.user.id
+        createdBy: commentUser.userName,
+        createdById: req.user.id
       });
       console.log("Comment has been added!");
       res.redirect("/post/"+req.params.id);
@@ -23,15 +18,14 @@ module.exports = {
       console.log(err);
     }
   },
-
-  deleteComments: async (req, res) => {
+  //! Added delete comment method
+  deleteComment: async (req, res) => {
     try {
-        await Comment.deleteOne({_id: req.params.commentid })
-        res.redirect("/post/"+req.params.postid)
-        
-    } catch(err) {
-        console.log(err)
-
+      await Comment.deleteOne({ _id: req.params.commentid })
+      console.log("comment removed")
+      res.redirect("/post/"+req.params.postid);
+    } catch (err) {
+      console.log(err);
     }
   }
 //   likePost: async (req, res) => {
