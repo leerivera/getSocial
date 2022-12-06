@@ -29,21 +29,19 @@
     </div>
     <div class="mt-5">
       <h2>Add a comment</h2>
-      <form action="/comment/createComment/<%=post._id%>" method="POST">
+      <form action="/comment/createComment/<%= post.id %>" method="POST">
         <div class="mb-3">
-            <label for="text" class="form-label">Text</label>
-            <textarea name="text" id="text" class="formcontrol"></textarea>
+          <label for="text" class="form-label">Text</label>
+          <textarea class="form-control" id="text" name="text"></textarea>
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
       </form>
     </div>
     <ul class="row list-unstyled">
-      <%  for(var i=0; i<comments.length; i++) {%>
-        <%- include('partials/comment', { postId: post.id, userId: user.id, comment: comment: comment[i], depth: 0}) -%>
-      <% } %>
+    <% for(var i=0; i<comments.length; i++) {%>
+      <%- include('partials/comment', { postId: post.id, userId: user.id, comment: comments[i], depth: 0 }) -%>
+    <% } %>
     </ul>
-   
-    
     <div class="col-6 mt-5">
       <a class="btn btn-primary" href="/profile">Return to Profile</a>
       <a class="btn btn-primary" href="/feed">Return to Feed</a>

@@ -1,6 +1,8 @@
 const cloudinary = require("../middleware/cloudinary");
 const Post = require("../models/Post");
 const Comment = require("../models/Comment")
+const Like = require("../models/Like");
+const { getPostCommentsIterative } = require("../middleware/comment")
 
 module.exports = {
   getProfile: async (req, res) => {
@@ -21,13 +23,16 @@ module.exports = {
   },
   getPost: async (req, res) => {
     try {
-      const post = await Post.findById(req.params.id);
-      const comments = await Comment.find({ post: req.params.id }).sort({ createdAt: "asc" }).lean();
-      res.render("post.ejs", { post: post, user: req.user, comments: comments });
-    } catch (err) {
-      console.log(err);
-    }
-  },
+      const post = await Post.findById(req.params.id)
+      post.likes = await Like.countDocuments({ post: req.params.id })
+      const comments = await getPostCommentsIterative(post)
+
+      res.render("post.ejs", { post: post, user: req.user, comments: comments});
+   
+  } catch(err){
+    console.log(err);
+     }
+    },
   createPost: async (req, res) => {
     try {
       // Upload image to cloudinary
@@ -49,30 +54,48 @@ module.exports = {
   },
   likePost: async (req, res) => {
     try {
-      await Post.findOneAndUpdate(
-        { _id: req.params.id },
-        {
-          $inc: { likes: 1 },
-        }
-      );
-      console.log("Likes +1");
+      const obj = { user: req.user.id, post: req.params.id };
+
+      if((await Like.deleteOne(obj)).deleteCount){
+     
+      console.log("Likes -1");
       res.redirect(`/post/${req.params.id}`);
-    } catch (err) {
-      console.log(err);
-    }
+    } 
+    await Like.create(obj);
+    console.log("Likes +1");
+    res.redirect(`/post/${req.params.id}`);
+  } catch (err) {
+    console.log(err);
+  }
+    
   },
   deletePost: async (req, res) => {
     try {
       // Find post by id
       let post = await Post.findById({ _id: req.params.id });
+      post.likes = await Like.countDocuments({ post: req.params.id})
       // Delete image from cloudinary
       await cloudinary.uploader.destroy(post.cloudinaryId);
       // Delete post from db
+      const commentIDs = [];
+
+      const comments = await getPostCommentsIterative(post);
+
+      while(comments.length) {
+        comments.push(...comment.comments);
+        commentIDs.push(comment.id);
+      }
+
+      await Comment.deleteMany({ _id: { $in: commentIDS}});
+      await Like.deleteMany({ post: req.params.id });
       await Post.remove({ _id: req.params.id });
-      console.log("Deleted Post");
+      console.log("post deleted");
       res.redirect("/profile");
-    } catch (err) {
+    }catch{
       res.redirect("/profile");
     }
   },
+
+
+   
 };
