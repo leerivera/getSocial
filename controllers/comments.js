@@ -4,6 +4,7 @@ const User = require("../models/User");
 module.exports = {
   createComment: async (req, res) => {
     try {
+        //User is part of req so we dont have to deconstruct an object
       const commentUser = await User.findById(req.user.id)
       await Comment.create({
         comment: req.body.comment,
