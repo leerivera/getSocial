@@ -5,7 +5,7 @@
 			<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#viewCommentCollapse-<%= comment.id %>" aria-expanded="false" aria-controls="viewCommentCollapse-<%= comment.id %>" aria-expanded="true">
 				<% if (!comment.deleted) { %>
 						<%= comment.user.userName %>
-						<% if (comment.edited) { %> <span class="fa fa-asterisk" style="color: red;"></span> <% } %>
+						<% if (comment.user.userName) { %> <span class="fa fa-asterisk" style="color: red;"></span> <% } %>
 				<% } else { %>
 					Deleted
 				<% } %>
