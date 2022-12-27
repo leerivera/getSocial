@@ -17,5 +17,10 @@ module.exports = {
         const sender = req.user._id;
         const follow = await Follow.findOneAndDelete({ sender, receiver });
         res.json(follow);
+    },
+    viewProfile: async (req, res) => {
+        const user = req.user;
+        const followers = await Follow.find({ receiver: user._id }).populate('sender');
+        res.render('profile', { user, followers });
     }
 }

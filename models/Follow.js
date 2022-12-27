@@ -10,6 +10,7 @@ const FollowSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
     },
+    
 })
 
 module.exports = mongoose.model("Follow", FollowSchema);
