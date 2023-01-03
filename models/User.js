@@ -5,20 +5,24 @@ const UserSchema = new mongoose.Schema({
   userName: { type: String, unique: true },
   email: { type: String, unique: true },
   password: String,
-}, {
-  toObject: { virtuals: true}
-}); 
+  followers: Array,
+  following: Array
+}, 
 
-UserSchema.virtual("following", {
-  ref: "Follow",
-  localField: "_id",
-  foreignField: "sender"
-});
-UserSchema.virtual("followers", {
-  ref: "Follow",
-  localField: "_id",
-  foreignField: "receiver"
-});
+// {
+//   toObject: { virtuals: true}
+// }); 
+
+// UserSchema.virtual("following", {
+//   ref: "Follow",
+//   localField: "_id",
+//   foreignField: "sender"
+// });
+// UserSchema.virtual("followers", {
+//   ref: "Follow",
+//   localField: "_id",
+//   foreignField: "receiver"
+// });
 
 // Password hash middleware.
 
@@ -39,7 +43,7 @@ UserSchema.pre("save", function save(next) {
       next();
     });
   });
-});
+
 
 // Helper method for validating user's password.
 

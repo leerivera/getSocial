@@ -5,8 +5,17 @@
           <div>
               <p><strong>User Name</strong>: <%= user.userName %></p>
               <p><strong>Email</strong>: <%= user.email %></p>
+              <p>followers: <% if (user.follower === []) { %> <h1>no followers</h1> <% } %></p>
               <a href="/logout" class="col-3 btn btn-primary">Logout</a>
           </div>
+
+          
+            <a href="/followUser/<%= user._id %>" class="btn btn-primary follow-btn" data-user="<%= user._id %>">Follow</a>
+          
+            <a href="/unfollowUser/<%= user._id %>" class="btn btn-secondary unfollow-btn" data-user="<%= user._id %>">Unfollow</a>
+          
+
+
           <div class="mt-5">
             <h2>Add a post</h2>
             <form action="/post/createPost" enctype="multipart/form-data" method="POST">
@@ -39,14 +48,16 @@
         <div class="row justify-content-center mt-5">
           <a class="btn btn-primary" href="/feed">Return to Feed</a>
         </div> 
-        <% if (followers && followers.length > 0) { %>
+        
           <h2>Followers</h2>
           <ul>
-          <% followers.forEach((follower) => { %>
-            <li><%= follower.userName %></li>
-          <% }) %>
+        
+            <li></li>
+          
           </ul>
-        <% } %> 
+        
+          <h2>You have 0 followers</h2>
+        
       </div>  
     </div>
   </div>
